@@ -1,12 +1,15 @@
 import { createContext, useState, useEffect } from "react";
 
+import { getIndexById } from '../utils/helpers'
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => null,
   cartItems: [],
   addItemToCart: () => null,
   cartCount: 0,
-  setCartCount: () => null
+  setCartCount: () => null,
+  removeItemFromCart: () => null
 })
 
 
@@ -21,12 +24,16 @@ export const CartProvider = ({children}) => {
     setCartCount(counter)
   }, [cartItems])
 
-  const updateCart = (cartItems, newItem) => {
+  const updateCart = (cartItems, newItem, toAdd) => {
     const updatedCartItems = [...cartItems]
-    const itemIndex = cartItems.findIndex(cartItem => cartItem.id === newItem.id)
-    
+    const itemIndex = getIndexById(cartItems, 'id', newItem.id)
+
     if (itemIndex > -1) {
-      updatedCartItems[itemIndex].quantity++
+      if (toAdd) {
+        updatedCartItems[itemIndex].quantity++
+      } else {
+        updatedCartItems[itemIndex].quantity > 0 && updatedCartItems[itemIndex].quantity--
+      }
       return updatedCartItems
     }
     updatedCartItems.push({...newItem, quantity: 1})
@@ -34,10 +41,24 @@ export const CartProvider = ({children}) => {
   }
 
   const addItemToCart = (item) => {
-    setCartItems(updateCart(cartItems, item))
+    setCartItems(updateCart(cartItems, item, true))
   }
 
-  const value = {isCartOpen, setIsCartOpen, cartItems, addItemToCart, cartCount}
+  const subtractItemToCart = (item) => {
+    setCartItems(updateCart(cartItems, item, false))
+  }
+
+  const removeItemFromCart = (id) => {
+    const itemIndex = getIndexById(cartItems, 'id', id)
+    if (itemIndex > - 1) {
+      const updatedCartItems = [...cartItems]
+      updatedCartItems.splice(itemIndex, 1)
+      setCartItems(updatedCartItems)
+    }
+    return cartItems
+  }
+
+  const value = {isCartOpen, setIsCartOpen, cartItems, addItemToCart, cartCount, subtractItemToCart, removeItemFromCart}
 
   return (
     <CartContext.Provider value={value}>
