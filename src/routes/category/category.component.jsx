@@ -19,13 +19,16 @@ const Category = () => {
   console.log(products)
 
   return (
-    <div className="category-container">
-      { products && 
-        products.map(p => (
-          <ProductCard key={p.id} product={p} />
-        ))
-      }
-    </div>
+    <>
+      <h2 className='category-title'>{category.toUpperCase()}</h2>
+      <div className="category-container">
+        { products && 
+          products.map(p => (
+            <ProductCard key={p.id} product={p} />
+          ))
+        }
+      </div>
+    </>
   )
 }
 

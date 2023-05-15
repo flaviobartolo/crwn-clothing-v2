@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import ProductCard from '../product-card/product-card.component'
 
@@ -6,12 +6,12 @@ import './category-preview-styles.scss'
 
 const CategoryPreview = ({title, products}) => {
 
-  const navigate = useNavigate()
-
   return (
     <div className="category-preview-container">
       <h2>
-        <span className='title' onClick={() => navigate(title)}>{title.toUpperCase()}</span>
+        <NavLink to={title} >
+          <span className='title'>{title.toUpperCase()}</span>
+        </NavLink>
       </h2>
       <div className="preview">
       {
