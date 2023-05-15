@@ -16,7 +16,6 @@ const CheckoutItem = ({ item }) => {
         <img src={imageUrl} alt={name} />
       </div>
       <span className="name">{name}</span>
-      {/* <span className="quantity" onClick={() => subtractItemToCart(item)}> - </span> */}
       <span className="quantity">
         <div className='arrow' onClick={() => subtractItemToCart(item)}>
           &#10094;          
@@ -28,7 +27,6 @@ const CheckoutItem = ({ item }) => {
           &#10095;          
         </div>
       </span>
-      {/* <span className="item-arrow" onClick={() => addItemToCart(item)}> + </span> */}
       <span className="price"> {price} </span>
       <span className="remove-button" onClick={() => removeItemFromCart(id)}> &#10005; </span>
     </div>
